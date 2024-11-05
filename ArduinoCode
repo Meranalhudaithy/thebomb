@@ -1,0 +1,854 @@
+
+
+#include <LiquidCrystal_I2C.h>
+
+#include <Wire.h>
+
+
+// Define the address of the I2C LCD display
+#define I2C_ADDR 0x27
+
+// Define the number of columns and rows of the LCD display
+#define LCD_COLS 16
+#define LCD_ROWS 2
+
+// Create an instance of the LiquidCrystal_I2C library with the appropriate parameters
+LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLS, LCD_ROWS);
+boolean low = true;
+boolean lose = false;
+int timer = 150;
+int a = 7;
+int b = 6;
+int c = 5;
+int d = 11;
+int e = 10;
+int f = 8;
+int g = 9;
+int dp = 4;
+
+unsigned long previousMillis = 0;
+const unsigned long interval = 1000;  // 1 second in milliseconds
+int previousTimerValue = timer;       // Store previous timer value
+
+int strikes = 0;
+int endButtonPin = A0;
+int greenLed = 3;
+int yellowLed = 12;
+int redLed = 13;
+
+int buttonPin = 2;
+int ledPin = 13;
+int buttonState = 0;
+int endButtonState = 0;
+int co = 0;
+int choosing = 1;
+bool chosen = false;
+int simnum;
+//display number 1
+void display1(void) {
+
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+}
+//display number2
+void display2(void) {
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+
+  digitalWrite(g, HIGH);
+  digitalWrite(e, HIGH);
+  digitalWrite(d, HIGH);
+}
+
+// display number3
+void display3(void) {
+  digitalWrite(a, HIGH);
+
+  digitalWrite(b, HIGH);
+
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+
+  digitalWrite(g, HIGH);
+}
+// display number4
+void display4(void) {
+
+  digitalWrite(f, HIGH);
+  digitalWrite(b, HIGH);
+  digitalWrite(g, HIGH);
+
+  digitalWrite(c, HIGH);
+}
+// display number5
+void display5(void)
+
+{
+  digitalWrite(a, HIGH);
+  digitalWrite(f, HIGH);
+  digitalWrite(g, HIGH);
+
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+}
+// display number6
+
+void display6(void) {
+  digitalWrite(a, HIGH);
+  digitalWrite(f, HIGH);
+
+  digitalWrite(g, HIGH);
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+
+  digitalWrite(e, HIGH);
+}
+// display number7
+void display7(void)
+
+{
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+  digitalWrite(c, HIGH);
+}
+
+// display number8
+void display8(void) {
+  digitalWrite(a, HIGH);
+
+  digitalWrite(b, HIGH);
+  digitalWrite(g, HIGH);
+  digitalWrite(c, HIGH);
+
+  digitalWrite(d, HIGH);
+  digitalWrite(e, HIGH);
+  digitalWrite(f, HIGH);
+}
+void clearDisplay(void) {
+  digitalWrite(a, LOW);
+  digitalWrite(b, LOW);
+
+  digitalWrite(g, LOW);
+  digitalWrite(c, LOW);
+  digitalWrite(d, LOW);
+
+  digitalWrite(e, LOW);
+  digitalWrite(f, LOW);
+}
+void display9(void)
+
+{
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+  digitalWrite(g, HIGH);
+
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+  digitalWrite(f, HIGH);
+}
+
+void display0(void) {
+  digitalWrite(a, HIGH);
+  digitalWrite(b, HIGH);
+
+  digitalWrite(c, HIGH);
+  digitalWrite(d, HIGH);
+  digitalWrite(e, HIGH);
+
+  digitalWrite(f, HIGH);
+}
+void counter(void) {
+
+  if (co == 0 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display1();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 1 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display2();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 2 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display3();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 3 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display4();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 4 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display5();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 5 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display6();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 6 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display7();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+
+  if (co == 7 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display8();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 8 && buttonState == HIGH) {
+    clearDisplay();
+    co = co + 1;
+    display9();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+  if (co == 9 && buttonState == HIGH) {
+    clearDisplay();
+    co = 0;
+    display0();
+    delay(250);
+    buttonState = digitalRead(buttonPin);
+  }
+}
+
+
+
+
+void simple1(void) {
+  if (co == 1) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+  if (co == 2) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+  if (co == 3) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 4) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 5) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 6) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 7) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 8) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 9) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 0) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (lose != true) {
+    // Clear LCD once before entering the loop
+    lcd.setCursor(7, 0);
+    lcd.print("<3");
+
+    if (timer != 0) {
+      unsigned long currentMillis = millis();
+
+      if (currentMillis - previousMillis >= interval) {
+        lcd.clear();
+        // One second has passed
+        lcd.setCursor(7, 1);
+        lcd.print(timer);
+        timer = timer - 1;
+        previousMillis = currentMillis;
+      }
+    } else {
+      lose = true;
+    }
+
+    if (co == 7 && endButtonState == HIGH) {
+      while (1) {
+        lcd.setCursor(0, 0);
+        lcd.print("BOMB DEFUSED");
+        lcd.setCursor(0, 1);
+      }
+    } else if (co != 7 && endButtonState == HIGH) {
+      strikes = strikes + 1;
+      lcd.clear();
+      lcd.print("STRIKE!!");
+      delay(1500);
+    }
+  }
+  if (timer == 0 || strikes == 2) {
+    while (1) {
+      lcd.clear();
+      lcd.print("BOOOOOOOM!!!!!!!!");
+      digitalWrite(redLed, HIGH);
+      digitalWrite(yellowLed, HIGH);
+      digitalWrite(greenLed, HIGH);
+      delay(250);
+      digitalWrite(redLed, LOW);
+      digitalWrite(yellowLed, LOW);
+      digitalWrite(greenLed, LOW);
+    }
+  }
+}
+
+
+void simple2(void) {
+  if (co == 1) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+  if (co == 2) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 3) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 4) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 5) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 6) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 7) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+  if (co == 8) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 9) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 0) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (lose != true) {
+    // Clear LCD once before entering the loop
+    lcd.setCursor(5, 0);
+    lcd.print("(^^.^^)");
+
+    if (timer != 0) {
+      unsigned long currentMillis = millis();
+
+      if (currentMillis - previousMillis >= interval) {
+        lcd.clear();
+        // One second has passed
+        lcd.setCursor(7, 1);
+        lcd.print(timer);
+        timer = timer - 1;
+        previousMillis = currentMillis;
+      }
+    } else {
+      lose = true;
+    }
+
+    if (co == 5 && endButtonState == HIGH) {
+      while (1) {
+        lcd.setCursor(0, 0);
+        lcd.print("BOMB DEFUSED");
+        lcd.setCursor(0, 1);
+      }
+    } else if (co != 5 && endButtonState == HIGH) {
+      strikes = strikes + 1;
+      lcd.clear();
+      lcd.print("STRIKE!!");
+      delay(1500);
+    }
+  }
+  if (timer == 0 || strikes == 2) {
+    while (1) {
+      lcd.clear();
+      lcd.print("BOOOOOOOM!!!!!!!!");
+      digitalWrite(redLed, HIGH);
+      digitalWrite(yellowLed, HIGH);
+      digitalWrite(greenLed, HIGH);
+      delay(250);
+      digitalWrite(redLed, LOW);
+      digitalWrite(yellowLed, LOW);
+      digitalWrite(greenLed, LOW);
+    }
+  }
+}
+
+void simple3(void) {
+  if (co == 1) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+  if (co == 2) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 3) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 4) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 5) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 6) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 7) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 8) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 9) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 0) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (lose != true) {
+    // Clear LCD once before entering the loop
+    lcd.setCursor(6, 0);
+    lcd.print("(^3^)");
+
+    if (timer != 0) {
+      unsigned long currentMillis = millis();
+
+      if (currentMillis - previousMillis >= interval) {
+        lcd.clear();
+        // One second has passed
+        lcd.setCursor(7, 1);
+        lcd.print(timer);
+        timer = timer - 1;
+        previousMillis = currentMillis;
+      }
+    } else {
+      lose = true;
+    }
+
+
+
+    if (co == 9 && endButtonState == HIGH) {
+      while (1) {
+        lcd.setCursor(0, 0);
+        lcd.print("BOMB DEFUSED");
+        lcd.setCursor(0, 1);
+      }
+    } else if (co != 3 && endButtonState == HIGH) {
+      strikes = strikes + 1;
+      lcd.clear();
+      lcd.print("STRIKE!!");
+      delay(1500);
+    }
+  }
+  if (timer == 0 || strikes == 2) {
+    while (1) {
+      lcd.clear();
+      lcd.print("BOOOOOOOM!!!!!!!!");
+      digitalWrite(redLed, HIGH);
+      digitalWrite(yellowLed, HIGH);
+      digitalWrite(greenLed, HIGH);
+      delay(250);
+      digitalWrite(redLed, LOW);
+      digitalWrite(yellowLed, LOW);
+      digitalWrite(greenLed, LOW);
+    }
+  }
+}
+void simple4(void) {
+  if (co == 1) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 2) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+  if (co == 3) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 4) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 5) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 6) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 7) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 8) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 9) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 0) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (lose != true) {
+    // Clear LCD once before entering the loop
+    lcd.setCursor(7, 0);
+    lcd.print(".-.!");
+
+    if (timer != 0) {
+      unsigned long currentMillis = millis();
+
+      if (currentMillis - previousMillis >= interval) {
+        lcd.clear();
+        // One second has passed
+        lcd.setCursor(7, 1);
+        lcd.print(timer);
+        timer = timer - 1;
+        previousMillis = currentMillis;
+      }
+    } else {
+      lose = true;
+    }
+
+    if (co == 2 && endButtonState == HIGH) {
+      while (1) {
+        lcd.setCursor(0, 0);
+        lcd.print("BOMB DEFUSED");
+        lcd.setCursor(0, 1);
+      }
+    } else if (co != 2 && endButtonState == HIGH) {
+      strikes = strikes + 1;
+      lcd.clear();
+      lcd.print("STRIKE!!");
+      delay(1500);
+    }
+  }
+  if (timer == 0 || strikes == 2) {
+    while (1) {
+      lcd.clear();
+      lcd.print("BOOOOOOOM!!!!!!!!");
+      digitalWrite(redLed, HIGH);
+      digitalWrite(yellowLed, HIGH);
+      digitalWrite(greenLed, HIGH);
+      delay(250);
+      digitalWrite(redLed, LOW);
+      digitalWrite(yellowLed, LOW);
+      digitalWrite(greenLed, LOW);
+    }
+  }
+}
+void simple5(void) {
+  if (co == 1) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 2) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 3) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 4) {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 5) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (co == 6) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 7) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+  if (co == 8) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 9) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, HIGH);
+  }
+
+  if (co == 0) {
+    digitalWrite(redLed, LOW);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(greenLed, LOW);
+  }
+
+  if (lose != true) {
+    // Clear LCD once before entering the loop
+    lcd.setCursor(7, 0);
+    lcd.print("07");
+
+    if (timer != 0) {
+      unsigned long currentMillis = millis();
+
+      if (currentMillis - previousMillis >= interval) {
+        lcd.clear();
+        // One second has passed
+        lcd.setCursor(7, 1);
+        lcd.print(timer);
+        timer = timer - 1;
+        previousMillis = currentMillis;
+      }
+    } else {
+      lose = true;
+    }
+
+    if (co == 9 && endButtonState == HIGH) {
+      while (1) {
+        lcd.setCursor(0, 0);
+        lcd.print("BOMB DEFUSED");
+        lcd.setCursor(0, 1);
+      }
+    } else if (co != 9 && endButtonState == HIGH) {
+      strikes = strikes + 1;
+      lcd.clear();
+      lcd.print("STRIKE!!");
+      delay(1500);
+    }
+  }
+  if (timer == 0 || strikes == 2) {
+    while (1) {
+      lcd.clear();
+      lcd.print("BOOOOOOOM!!!!!!!!");
+      digitalWrite(redLed, HIGH);
+      digitalWrite(yellowLed, HIGH);
+      digitalWrite(greenLed, HIGH);
+      delay(250);
+      digitalWrite(redLed, LOW);
+      digitalWrite(yellowLed, LOW);
+      digitalWrite(greenLed, LOW);
+    }
+  }
+}
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+
+
+
+void picksim(void) {
+
+  simnum = choosing;
+  if (simnum == 1) {  //7
+
+    simple1();
+
+  } else if (simnum == 2) {
+    simple2();
+  }
+
+  else if (simnum == 3) {
+    simple3();
+  }  //3
+
+  else if (simnum == 4) {
+    simple4();
+  }  //2
+
+  else {
+    simple5();
+  }  //9
+}
+
+
+  void setup() {
+    pinMode(endButtonPin, INPUT);
+    lcd.init();
+    lcd.backlight();
+
+    // initialize the LED pin as an output:
+    pinMode(greenLed, OUTPUT);
+    pinMode(yellowLed, OUTPUT);
+    pinMode(redLed, OUTPUT);
+    pinMode(A0, INPUT);
+    pinMode(A1, OUTPUT);
+
+    // initialize the pushbutton pin as an input:
+    pinMode(buttonPin, INPUT);
+    display0();
+    // Print "Hello, World!" on the LCD display
+    lcd.setCursor(3, 0);  // Set cursor to the first column of the first row
+    lcd.print("BOOM  GAME");
+    lcd.setCursor(0, 1);
+    lcd.print("press the button");
+
+    while (!chosen) {
+
+      unsigned long currentMillis = millis();
+
+      if (currentMillis - previousMillis >= interval) {
+
+        choosing = choosing + 1;
+        if (choosing == 6) choosing = 1;
+
+        previousMillis = currentMillis;
+      }
+      endButtonState = digitalRead(endButtonPin);
+      if (endButtonState == HIGH) chosen = true;
+    }
+    lcd.clear();
+    lcd.setCursor(5, 0);
+    lcd.print("START!");
+    delay(2000);
+    lcd.clear();
+  }
+
+
+
+  void loop() {
+
+    // read the state of the pushbutton value:
+    buttonState = digitalRead(buttonPin);
+    endButtonState = digitalRead(endButtonPin);
+
+    // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+    if (buttonState == HIGH) {
+      counter();
+      delay(250);
+    }
+
+    picksim();
+  }
+
+
